@@ -4,6 +4,7 @@
 $animais_detalhes = [
     'cachorro' => [
         'nome' => 'Cachorro',
+        'image' => 'cachorro.png',
         'caracteristicas' => [
             ['mora numa casinha', 'cachorro/mora_numa_casinha.jpg'],
             ['tem patas', 'cachorro/tem_patas.jpg']
@@ -11,29 +12,49 @@ $animais_detalhes = [
     ],
     'coruja' => [
         'nome' => 'Coruja',
+        'image' => 'coruja.png',
         'caracteristicas' => [
             ['gosta da noite', 'coruja/gosta_da_noite.jpg'],
             ['tem olhos grandes', 'coruja/tem_olhos_grandes.jpg']
         ]
     ],
-    'gato'=> [
+    'gato' => [
         'nome' => 'Gato',
+        'image' => 'gato1.png',
         'caracteristicas' => [
-            ['mia ', 'gato.png'],
-            ['toma leite', 'gato.png'],
+            ['gosta da miar', 'gato/gato_miando.png'],
+            ['toma leite', 'gato/toma_leite.png']
         ]
     ],
-    'girafa' => [
-        'nome' => 'Girafa',
-        'caracteristica' => [
-            ['tem um pescoso grande', 'img'],
-            ['vivi na africa', 'img'],
+    'papagaio' => [
+        'nome' => 'Papagaio',
+        'image' => 'papagaio1.png',
+        'caracteristicas' => [
+            ['Ele fala', 'papagaio/falando.png'],
+            ['Ele voa', 'papagaio/voando.png']
         ]
-    ]
+    ],
 ];
+
+function shuffle_assoc(&$array) {
+    $keys = array_keys($array);
+
+    shuffle($keys);
+
+    foreach($keys as $key) {
+        $new[$key] = $array[$key];
+    }
+
+    $array = $new;
+
+    return true;
+}
 
 $animais = array_keys($animais_detalhes);
 $escolha_aleatoria = rand(0, 3);
+$mix = $animais_detalhes;
+shuffle_assoc($mix);
+
 $animal_escolhido = $animais_detalhes[$animais[$escolha_aleatoria]];
 
 ?>
@@ -89,19 +110,13 @@ $animal_escolhido = $animais_detalhes[$animais[$escolha_aleatoria]];
         </div>
         <div class="container-fluid p-2 mt-3" style="background: lightgreen">
             <div class="row">
-                <div class="col-md-3"></div>
-                <div class="col-md-3">
-                    <a href="votar.php?apresentado=<?=$animais[$escolha_aleatoria]?>&escolhido=1">
-                        <img width="256" src="./imagens/coruja.png" class="img-fluid" alt="tem olhos grandes" />
-                    </a>
-                </div>
-                <div class="col-md-3">
-                    <a href="votar.php?apresentado=<?=$animais[$escolha_aleatoria]?>&escolhido=2">
-                        <!-- deixe dinâmico esta imagem abaixo -->
-                        <img width="256" src="imagens/cachorro.png" class="img-fluid" alt="mora numa casinha" />
-                    </a>
-                </div>
-                <div class="col-md-3"></div>
+                <?php foreach($mix as $key => $item){ ?>
+                    <div class="col-md-3">
+                        <a href="votar.php?apresentado=<?=$animais[$escolha_aleatoria]?>&escolhido=<?= $key ?>">
+                            <img width="256" src="./imagens/<?= $item['image'] ?>" class="img-fluid" alt="animal" />
+                        </a>
+                    </div>
+                <?php } ?>
             </div>
         </div>
 
